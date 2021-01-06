@@ -1,0 +1,38 @@
+import("//build/package.gni")
+import("//src/sys/build/components.gni")
+
+config("config") {
+  cflags = [ "-Wno-missing-field-initializers" ]
+  cflags += [ "-Wno-conversion" ]
+
+  include_dirs = [
+    ".",
+  ]
+
+  defines = [
+    "__FUCHSIA__",
+  ]
+}
+
+group("tinyxml2") {
+  deps = [
+    ":lib",
+  ]
+
+  public_configs = [ ":config" ]
+}
+
+static_library("lib") {
+  output_name = "tinyxml2"
+
+  sources = [
+    "tinyxml2.cpp",
+  ]
+
+  configs += [ "//build/config:no_rtti" ]
+  configs -= [ "//build/config:no_rtti" ]
+  configs += [ "//build/config:no_exceptions" ]
+  configs -= [ "//build/config:no_exceptions" ]
+
+  configs += [ ":config" ]
+}
